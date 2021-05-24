@@ -34,7 +34,7 @@ const showOne = function (req, res) {
             response.status = 400;
             response.message = { "message": "Martial art not found" };
         }
-        else { response.message = marts; }
+        else { response.message = mart; }
         res.status(response.status).json(response.message);
     }
     );
