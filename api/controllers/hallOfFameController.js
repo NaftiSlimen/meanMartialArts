@@ -113,6 +113,7 @@ const partiallyUpdate=function(req,res){
             response.message=err;
         }else{
             if (mart.hallOfFame.id(hofId)){
+                //mart.hallOfFame.id(hofId).trophies=[];
                 if (req.body.fullName||req.body.countryOfOrigin||req.body.trophies){
                     if (req.body.fullName) mart.hallOfFame.id(hofId).fullName=req.body.fullName;
                     if (req.body.countryOfOrigin) mart.hallOfFame.id(hofId).countryOfOrigin=req.body.countryOfOrigin;
@@ -124,6 +125,7 @@ const partiallyUpdate=function(req,res){
                         if (err) {
                             response.status = 500;
                             response.message = err;
+                            console.log(err);
                         }
                         else {
                             response.status = 200;

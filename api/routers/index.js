@@ -3,6 +3,7 @@ const router = express.Router();
 const maController = require("../controllers/martialArtsConstoller.js");
 const caracteristicsController = require("../controllers/caracteristicsController.js");
 const hallOfFameController = require("../controllers/hallOfFameController.js");
+const trophiesController = require("../controllers/trophiesController.js");
 //Martial arts route
 router.route("/api/martialArts")
     .get(maController.showAll)
@@ -30,5 +31,14 @@ router.route("/api/martialArts/:maID/halloffame/:hofID")
     .delete(hallOfFameController.deleteOne)
     .put(hallOfFameController.fullyUpdate)
     .patch(hallOfFameController.partiallyUpdate)
+//trophies routes
+router.route("/api/martialArts/:maID/halloffame/:hofID/trophies")
+    .get(trophiesController.showAll)
+    .post(trophiesController.addOne);
 
+router.route("/api/martialArts/:maID/halloffame/:hofID/trophies/:trophiesID")
+    .get(trophiesController.showOneByID)
+    .delete(trophiesController.deleteOne)
+    .put(trophiesController.fullyUpdate)
+    .patch(trophiesController.partiallyUpdate)
 module.exports = router;

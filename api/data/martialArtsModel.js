@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-
+const trophieSchema=new mongoose.Schema({
+    "description":String
+});
 const caracteristicsSchema=new mongoose.Schema({
     "description":String,
     "selfDefenseEfficiency":{
@@ -21,8 +23,9 @@ const caracteristicsSchema=new mongoose.Schema({
 const hallOfFameSchema=new mongoose.Schema({
     "fullName":String,
     "countryOfOrigin":String,
-    "trophies":[String],
+    "trophies":[trophieSchema]
 });
+
 const martialArtSchema=new mongoose.Schema({
     "name":String,
     "origin":String,
