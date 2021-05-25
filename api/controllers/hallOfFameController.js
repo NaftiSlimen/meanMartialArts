@@ -11,7 +11,12 @@ const showOneByID=function(req,res){
             response.status(500);
             response.message=err;
         }else{
-            response.message=hof.hallOfFame.id(hofId);
+            if (hof.hallOfFame.id(hofId)){
+                response.message=hof.hallOfFame.id(hofId);
+            }else{
+                response.status=404;
+                response.message={"message":"hall of fame not found"};
+            }
         }
         res.status(response.status).json(response.message);
     });
@@ -99,11 +104,77 @@ const addOne=function(req,res){
 }
 
 const partiallyUpdate=function(req,res){
-    console.log("partiallyUpdate");
+    let response={status:200};
+    let maId=req.params.maID;
+    let hofId=req.params.hofID;
+    madb.findById(maId).exec(function (err,mart){
+        if (err) {
+            response.status(500);
+            response.message=err;
+        }else{
+            if (mart.hallOfFame.id(hofId)){
+                if (req.body.fullName||req.body.countryOfOrigin||req.body.trophies){
+                    if (req.body.fullName) mart.hallOfFame.id(hofId).fullName=req.body.fullName;
+                    if (req.body.countryOfOrigin) mart.hallOfFame.id(hofId).countryOfOrigin=req.body.countryOfOrigin;
+                    if (req.body.trophies) mart.hallOfFame.id(hofId).trophies=req.body.trophies;
+                    response.status = 200;
+                    response.message = { "message": "hof with ID "+hofId+" was partially modified" };
+                    console.log(mart.hallOfFame.id(hofId));
+                    mart.save(function (err, updatedhof) {
+                        if (err) {
+                            response.status = 500;
+                            response.message = err;
+                        }
+                        else {
+                            response.status = 200;
+                            response.message = { "message": "hof partially modified" };
+                        }
+                    })
+                }
+            }else{
+                response.status=404;
+                response.message={"message":"hall of fame not found"};
+            }
+        }
+        res.status(response.status).json(response.message);
+    });
 }
 
 const fullyUpdate=function(req,res){
-    console.log("fullyUpdate");
+    let response={status:200};
+    let maId=req.params.maID;
+    let hofId=req.params.hofID;
+    madb.findById(maId).exec(function (err,mart){
+        if (err) {
+            response.status(500);
+            response.message=err;
+        }else{
+            if (mart.hallOfFame.id(hofId)){
+                if (req.body.fullName&&req.body.countryOfOrigin&&req.body.trophies){
+                    mart.hallOfFame.id(hofId).fullName=req.body.fullName;
+                    mart.hallOfFame.id(hofId).countryOfOrigin=req.body.countryOfOrigin;
+                    mart.hallOfFame.id(hofId).trophies=req.body.trophies;
+                    response.status = 200;
+                    response.message = { "message": "hof with ID "+hofId+" was fully modified" };
+                    console.log(mart.hallOfFame.id(hofId));
+                    mart.save(function (err, updatedhof) {
+                        if (err) {
+                            response.status = 500;
+                            response.message = err;
+                        }
+                        else {
+                            response.status = 200;
+                            response.message = { "message": "hof fully modified" };
+                        }
+                    })
+                }
+            }else{
+                response.status=404;
+                response.message={"message":"hall of fame not found"};
+            }
+        }
+        res.status(response.status).json(response.message);
+    });
 }
 
 
